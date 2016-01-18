@@ -23,6 +23,9 @@ call plug#begin('~/.nvim/plugged')
 	Plug 'benekastah/neomake'
 	Plug 'xolox/vim-misc', { 'for': 'lua' }
 	Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua'}
+	Plug 'fatih/vim-go', { 'for': 'go' }
+	Plug 'majutsushi/tagbar'
+	Plug 'Blackrush/vim-gocode', { 'for': 'go' }
 call plug#end()
 
 colorscheme gruvbox
@@ -35,9 +38,36 @@ let NERDTreeShowHidden=1
 
 
 map <C-k> :NERDTreeToggle<CR>
-"
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+\ }
+
 "  Vim-Airline settings
-"
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline#extensions#tabline#enabled = 1
@@ -80,13 +110,6 @@ set smartindent
 set laststatus=2
 set statusline=\ %<%f[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\
 
-"set foldenable " 开始折叠
-"set foldmethod=syntax " 设置语法折叠
-"set foldcolumn=0 " 设置折叠区域的宽度
-"setlocal foldlevel=1 " 设置折叠层数为
-"" set foldclose=all " 设置为自动关闭折叠
-"nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-" 用空格键来开关折叠
 
 "let g:ycm_global_ycm_extra_conf = '/Users/DouglasYin/.nvim/plugged/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
@@ -101,4 +124,3 @@ set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
 autocmd! BufWritePost,BufEnter * Neomake
 
 "let g:lua_compiler_name = '/usr/local/bin/luajit -b'
-"
